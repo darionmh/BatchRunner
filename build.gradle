@@ -1,0 +1,26 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.2.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.dhiggins'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-integration'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.8'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+}
