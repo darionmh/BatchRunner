@@ -1,0 +1,10 @@
+config:
+    jobs:
+        -
+            name: Test
+            command: ./wait.sh
+            directory: src/main/resources/wait.sh
+            capacity: 1
+            hasOutput: false
+            outputName:
+            outputDir:

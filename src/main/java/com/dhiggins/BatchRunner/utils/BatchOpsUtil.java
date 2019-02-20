@@ -3,19 +3,17 @@ package com.dhiggins.BatchRunner.utils;
 import com.dhiggins.BatchRunner.models.Batch;
 import com.dhiggins.BatchRunner.models.BatchStatus;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
+import reactor.core.publisher.Mono;
 
 
 public class BatchOpsUtil {
 
-    public static Batch moveBatch(Batch oldBatch, BatchStatus newStatus, ReactiveRedisOperations<String, Batch> batchOps){
-        Batch newBatch = oldBatch.clone();
-        newBatch.setBatchStatus(newStatus);
-        batchOps.opsForValue().set(newBatch.getCompositeId(), newBatch).subscribe(success -> {
-            if(success){
-                batchOps.opsForValue().delete(oldBatch.getCompositeId()).subscribe();
-            }
-        });
+    public static Mono<Boolean> moveBatch(Batch batch, BatchStatus newStatus, ReactiveRedisOperations<String, Batch> batchOps){
+        String oldKey = batch.getCompositeId();
 
-        return newBatch;
+        batch.setBatchStatus(newStatus);
+
+        return batchOps.rename(oldKey, batch.getCompositeId()).then(
+                batchOps.opsForValue().set(batch.getCompositeId(), batch));
     }
 }

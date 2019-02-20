@@ -1,13 +1,16 @@
 package com.dhiggins.BatchRunner.controllers;
 
 
-import com.dhiggins.BatchRunner.services.BatchService;
 import com.dhiggins.BatchRunner.models.Batch;
-import org.springframework.web.bind.annotation.*;
+import com.dhiggins.BatchRunner.services.BatchService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@RestController
+@RestController()
 public class BatchController {
 
     private BatchService batchService;
@@ -16,7 +19,7 @@ public class BatchController {
         this.batchService = batchService;
     }
 
-    @GetMapping(value = "/batches/{id}")
+    @GetMapping("/batches/{id}")
     public Mono<Batch> batchById(@PathVariable String id){
         return batchService.getById(id);
     }
@@ -24,21 +27,5 @@ public class BatchController {
     @GetMapping("/batches")
     public Flux<Batch> batches(){
         return batchService.getAllBatches();
-    }
-
-    @GetMapping("/batches/messages")
-    public Flux<Batch> batchMessages(){
-        return batchService.getAllBatches();
-    }
-
-    @PostMapping("/batches/add")
-    public Mono<Boolean> add(@RequestParam("xml") String xml){
-        System.out.println("HIT---"+xml);
-        return batchService.addBatch(xml);
-    }
-
-    @GetMapping("/queue")
-    public Flux<Batch> queue(){
-        return batchService.queue();
     }
 }

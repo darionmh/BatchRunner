@@ -42,11 +42,11 @@ public class BatchRunner implements Runnable{
     @Override
     public void run() {
         try {
-            batch = BatchOpsUtil.moveBatch(batch, BatchStatus.RUNNING, batchOps);
+            BatchOpsUtil.moveBatch(batch, BatchStatus.RUNNING, batchOps);
             System.out.println("Running batch "+batch);
             p = pb.start();
             while (p.isAlive()) ;
-            batch = BatchOpsUtil.moveBatch(batch, BatchStatus.COMPLETE, batchOps);
+            BatchOpsUtil.moveBatch(batch, BatchStatus.COMPLETE, batchOps);
             System.out.println("Batch complete "+batch);
         }catch (Exception e){
             System.err.println("Error running batch");
